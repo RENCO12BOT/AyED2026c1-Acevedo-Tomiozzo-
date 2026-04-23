@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../TrabajoPractico_1/proyecto_1"
+		}
+	],
+	"settings": {
+		"terminal.integrated.env.windows": {
+			"PYTHONPATH": "${workspaceFolder};${env:PYTHONPATH}",
+			"PATH": "${workspaceFolder};${env:PATH}"
+		}
+	}
+}

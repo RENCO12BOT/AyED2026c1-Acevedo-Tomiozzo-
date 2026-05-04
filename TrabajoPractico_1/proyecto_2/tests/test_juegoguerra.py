@@ -6,7 +6,7 @@ Created on Sun Aug 21 11:23:53 2022
 """
 
 
-from ..modules.guerra_de_cartas import JuegoGuerra
+from TrabajoPractico_1.proyecto_2.modules.guerra_de_cartas import JuegoGuerra
 import unittest
 
 

@@ -1,6 +1,6 @@
-from TrabajoPractico_1.proyecto_3.modules import Burbuja
-from TrabajoPractico_1.proyecto_3.modules import Radix_sort
-from TrabajoPractico_1.proyecto_3.modules import Quicksort
+from modules.burbuja import Burbuja
+from modules.radix_sort import Radix_sort
+from modules.quicksort import Quicksort
 import unittest
 
 class TestSortingAlgorithms(unittest.TestCase):

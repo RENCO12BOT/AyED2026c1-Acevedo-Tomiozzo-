@@ -1,4 +1,4 @@
-from .LDE import ListaDobleEnlazada
+from modules.LDE import ListaDobleEnlazada
 
 
 class DequeEmptyError(Exception):

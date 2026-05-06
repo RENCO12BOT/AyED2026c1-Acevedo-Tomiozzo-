@@ -9,7 +9,7 @@ if __package__ is None and __name__ == "__main__":
     if base_dir not in sys.path:
         sys.path.insert(0, base_dir)
 
-from TrabajoPractico_1.proyecto_1.modules.LDE import ListaDobleEnlazada
+from modules.LDE import ListaDobleEnlazada
 # o bien: from modules.Listadobleenlazada import ListaDobleEnlazada
 # según tu estructura
 

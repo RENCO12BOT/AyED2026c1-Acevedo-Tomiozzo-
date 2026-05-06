@@ -6,8 +6,8 @@ Created on Sun Aug 21 11:23:53 2022
 """
 
 
-from TrabajoPractico_1.proyecto_2.modules.cartas import Carta
-from TrabajoPractico_1.proyecto_2.modules.mazo import Mazo
+from modules.cartas import Carta
+from modules.mazo import Mazo
 import unittest
 
 

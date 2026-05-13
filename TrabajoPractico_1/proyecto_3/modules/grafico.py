@@ -8,7 +8,7 @@ from radix_sort import Radix_sort # type: ignore
 # Tus datos de prueba
 tallas = [100, 1000, 5000]
 tiempos_radix = []
-tiempos_sorted = []
+tiempos_sorted = [] 
 
 for n in tallas:
     lista_original = [random.randint(0, 10000) for _ in range(n)]

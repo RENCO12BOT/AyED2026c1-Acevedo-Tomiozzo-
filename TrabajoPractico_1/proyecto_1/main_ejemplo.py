@@ -1,7 +1,7 @@
-from ayedfiuner.algoritmos.burbuja import ordenamiento_burbuja
-from ayedfiuner.estructuras.circulo import Circulo
-from ayedfiuner.estructuras.punto import Punto
-from ayedfiuner.estructuras.poligono import Poligono
+from ayedfiuner.algoritmos.burbuja import ordenamiento_burbuja # type: ignore
+from ayedfiuner.estructuras.circulo import Circulo # type: ignore
+from ayedfiuner.estructuras.punto import Punto # type: ignore
+from ayedfiuner.estructuras.poligono import Poligono # type: ignore
 
 
 # Ejemplo de uso del algoritmo de ordenamiento burbuja

@@ -44,7 +44,7 @@ class ListaDobleEnlazada:
     def agregar_al_inicio(self, item):
         nuevo = Nodo(item)
         if self.esta_vacia():
-            self.__cabeza = self.__cola = nuevo  # era self._cabeza/_cola
+            self.__cabeza = self.__cola = nuevo  
         else:
             nuevo.asignar_siguiente(self.__cabeza)
             self.__cabeza.asignar_anterior(nuevo)
@@ -54,7 +54,7 @@ class ListaDobleEnlazada:
     def agregar_al_final(self, item):
         nuevo = Nodo(item)
         if self.esta_vacia():
-            self.__cabeza = self.__cola = nuevo  # era self._cabeza/_cola
+            self.__cabeza = self.__cola = nuevo  
         else:
             self.__cola.asignar_siguiente(nuevo)
             nuevo.asignar_anterior(self.__cola)

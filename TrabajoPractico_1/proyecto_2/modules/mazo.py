@@ -5,7 +5,7 @@ class DequeEmptyError(Exception):
     pass
 
 class Mazo:
-
+    
     def __init__(self):
         self._cartas = ListaDobleEnlazada()
 

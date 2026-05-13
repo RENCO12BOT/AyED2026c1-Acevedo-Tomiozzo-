@@ -1,3 +1,7 @@
+import matplotlib
+matplotlib.use("Qt5Agg")
+
+import matplotlib.pyplot as plt
 import os
 import sys
 import time
@@ -5,13 +9,25 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 if __package__ is None and __name__ == "__main__":
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
-    if base_dir not in sys.path:
-        sys.path.insert(0, base_dir)
+    current_dir = os.path.abspath(os.path.dirname(__file__))
+    if current_dir not in sys.path:
+        sys.path.insert(0, current_dir)
 
-from modules.LDE import ListaDobleEnlazada
-# o bien: from modules.Listadobleenlazada import ListaDobleEnlazada
+try:
+    from .LDE import ListaDobleEnlazada
+except (ImportError, ValueError):
+    from .LDE import ListaDobleEnlazada
+# o bien: from LDE import ListaDobleEnlazada
 # según tu estructura
+
+def mostrar_o_guardar(nombre_archivo):
+    """Intenta mostrar el gráfico; si no puede, lo guarda en disco."""
+    plt.savefig(nombre_archivo)
+    try:
+        plt.show()
+    except Exception:
+        print(f"No se pudo mostrar el gráfico en pantalla. Guardado en: {nombre_archivo}")
+
 
 def medir_tiempo_len(lista):
     """Mide el tiempo de ejecución del método len"""
@@ -91,7 +107,7 @@ if __name__ == "__main__":
     plt.xlabel('Número de elementos (N)')
     plt.ylabel('Tiempo (microsegundos)')
     plt.grid(True, alpha=0.3)
-    plt.show()
+    mostrar_o_guardar(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "grafico_len.png")))
 
     # ==== Gráficas individuales en SEGUNDOS ====
     plt.figure(figsize=(15, 5))
@@ -121,7 +137,7 @@ if __name__ == "__main__":
     plt.grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.show()
+    mostrar_o_guardar(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "grafico_comparacion.png")))
 
     # ==== Valores en tabla ====
     print("\n=== ANÁLISIS DE RESULTADOS ===")

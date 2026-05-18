@@ -1,5 +1,5 @@
 class Nodo:
-    # Unidad básica de la lista: guarda un valor y apunta al nodo de cada lado
+
     def __init__(self, valor):
         self.__valor = valor
         self.__anterior = None
@@ -34,7 +34,7 @@ class Nodo:
 
 
 class ListaDobleEnlazada:
-    # Colección enlazada con acceso directo al primer y último elemento
+  
 
     def __init__(self):
         # Parte de vacía: sin cabeza, sin cola, tamaño cero

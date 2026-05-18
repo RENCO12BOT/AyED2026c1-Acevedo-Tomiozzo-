@@ -1,5 +1,5 @@
 import matplotlib
-matplotlib.use("Qt5Agg")
+matplotlib.use("Agg")
 import time
 import matplotlib.pyplot as plt
 import random
@@ -34,6 +34,3 @@ plt.legend()
 
 # Guardar imagen
 plt.savefig("grafico.png")
-
-# Mostrar ventana
-plt.show()

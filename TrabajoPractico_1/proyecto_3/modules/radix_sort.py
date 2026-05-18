@@ -7,11 +7,16 @@ class Radix_sort:
 
     def ordenar(self):
         # Determina la cantidad máxima de dígitos en los números de la lista.
+ 
         cantidad_de_digitos = 0
+        if not self.__lista:
+          return self.__lista
+        if min(self.__lista) < 0:
+           raise ValueError("Radix Sort solo admite enteros no negativos")
         for elemento in self.__lista:
             digitos = len(str(elemento))
-            if digitos > cantidad_de_digitos:
-                cantidad_de_digitos = digitos
+        if digitos > cantidad_de_digitos:
+            cantidad_de_digitos = digitos
 
         # Normaliza la lista de números como cadenas con ceros a la izquierda.
         lista_normalizada = [

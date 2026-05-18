@@ -17,8 +17,6 @@ try:
     from .LDE import ListaDobleEnlazada
 except (ImportError, ValueError):
     from .LDE import ListaDobleEnlazada
-# o bien: from LDE import ListaDobleEnlazada
-# según tu estructura
 
 def mostrar_o_guardar(nombre_archivo):
     """Intenta mostrar el gráfico; si no puede, lo guarda en disco."""

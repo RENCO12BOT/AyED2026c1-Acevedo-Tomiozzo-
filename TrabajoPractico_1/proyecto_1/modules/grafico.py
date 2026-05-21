@@ -1,6 +1,4 @@
 import matplotlib
-matplotlib.use("Qt5Agg")
-
 import matplotlib.pyplot as plt
 import os
 import sys
@@ -13,10 +11,7 @@ if __package__ is None and __name__ == "__main__":
     if current_dir not in sys.path:
         sys.path.insert(0, current_dir)
 
-try:
-    from .LDE import ListaDobleEnlazada
-except (ImportError, ValueError):
-    from .LDE import ListaDobleEnlazada
+from ayedfiuner.estructuras.LDE import ListaDobleEnlazada
 
 def mostrar_o_guardar(nombre_archivo):
     """Intenta mostrar el gráfico; si no puede, lo guarda en disco."""

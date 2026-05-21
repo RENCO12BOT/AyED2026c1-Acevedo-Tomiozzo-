@@ -1,4 +1,4 @@
-from modules.LDE import ListaDobleEnlazada
+from ayedfiuner.estructuras.LDE import ListaDobleEnlazada
 
 
 class DequeEmptyError(Exception):

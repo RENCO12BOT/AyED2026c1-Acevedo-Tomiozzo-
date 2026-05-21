@@ -1,9 +1,8 @@
 import matplotlib
-matplotlib.use("Agg")
 import time
 import matplotlib.pyplot as plt
 import random
-from radix_sort import Radix_sort # type: ignore
+from ayedfiuner.algoritmos.radix_sort import Radix_sort
 
 # Tus datos de prueba
 tallas = [100, 1000, 5000]
@@ -31,6 +30,7 @@ plt.plot(tallas, tiempos_sorted, label="Python Sorted")
 plt.xlabel("Tamaño de la lista (N)")
 plt.ylabel("Tiempo (segundos)")
 plt.legend()
+plt.show()
 
 # Guardar imagen
 plt.savefig("grafico.png")

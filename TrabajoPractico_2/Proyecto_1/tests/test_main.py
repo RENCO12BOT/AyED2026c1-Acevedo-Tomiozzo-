@@ -4,13 +4,14 @@ Sala de emergencias
 """
 import time
 import datetime
-from modules.paciente import Paciente
+from ayedfiuner.estructuras.paciente import Paciente
 import random
-from modules.Cola_Prioridad import cola_prioridad
+from ayedfiuner.estructuras.Cola_Prioridad import ColaPrioridad
+
 
 n = 20  # cantidad de ciclos de simulación
 
-cola_de_espera = cola_prioridad()
+cola_de_espera = ColaPrioridad()
 
 # Ciclo que gestiona la simulación
 for i in range(n):

@@ -1,15 +1,6 @@
-import matplotlib
-import matplotlib.pyplot as plt
-import os
-import sys
 import time
 import matplotlib.pyplot as plt
 import numpy as np
-
-if __package__ is None and __name__ == "__main__":
-    current_dir = os.path.abspath(os.path.dirname(__file__))
-    if current_dir not in sys.path:
-        sys.path.insert(0, current_dir)
 
 from ayedfiuner.estructuras.LDE import ListaDobleEnlazada
 
@@ -100,7 +91,7 @@ if __name__ == "__main__":
     plt.xlabel('Número de elementos (N)')
     plt.ylabel('Tiempo (microsegundos)')
     plt.grid(True, alpha=0.3)
-    mostrar_o_guardar(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "grafico_len.png")))
+    mostrar_o_guardar("grafico_len.png")
 
     # ==== Gráficas individuales en SEGUNDOS ====
     plt.figure(figsize=(15, 5))
@@ -130,7 +121,7 @@ if __name__ == "__main__":
     plt.grid(True, alpha=0.3)
 
     plt.tight_layout()
-    mostrar_o_guardar(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "grafico_comparacion.png")))
+    mostrar_o_guardar("grafico_comparacion.png")
 
     # ==== Valores en tabla ====
     print("\n=== ANÁLISIS DE RESULTADOS ===")

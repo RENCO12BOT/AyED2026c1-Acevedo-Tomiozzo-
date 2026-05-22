@@ -1,4 +1,3 @@
-import matplotlib
 import time
 import matplotlib.pyplot as plt
 import random
@@ -48,7 +47,10 @@ plt.plot(tallas, tiempos_sorted,  label="Python Sorted")
 plt.xlabel("Tamaño de la lista (N)")
 plt.ylabel("Tiempo (milisegundos)")
 plt.legend()
-plt.show()
 
 # Guardar imagen
 plt.savefig("grafico_todos.png")
+# Mostrar gráfico
+plt.show()
+# Cerrar gráfico
+plt.close()

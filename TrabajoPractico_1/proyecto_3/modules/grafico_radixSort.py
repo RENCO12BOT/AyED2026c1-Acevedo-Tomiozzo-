@@ -1,4 +1,3 @@
-import matplotlib
 import time
 import matplotlib.pyplot as plt
 import random
@@ -24,13 +23,16 @@ for n in tallas:
     tiempos_sorted.append(time.time() - inicio)
 
 # Crear gráfico
-plt.plot(tallas, tiempos_radix, label="Mi Radix Sort")
+plt.plot(tallas, tiempos_radix, label="Radix Sort")
 plt.plot(tallas, tiempos_sorted, label="Python Sorted")
 
 plt.xlabel("Tamaño de la lista (N)")
 plt.ylabel("Tiempo (segundos)")
 plt.legend()
-plt.show()
 
 # Guardar imagen
 plt.savefig("grafico.png")
+# Mostrar gráfico
+plt.show()
+# Cerrar gráfico
+plt.close()

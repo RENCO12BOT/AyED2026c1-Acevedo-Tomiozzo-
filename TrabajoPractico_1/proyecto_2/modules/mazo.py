@@ -1,6 +1,5 @@
 from ayedfiuner.estructuras.LDE import ListaDobleEnlazada
 
-
 class DequeEmptyError(Exception):
     pass
 

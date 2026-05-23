@@ -1,4 +1,4 @@
-from ayedfiuner.estructuras.monticulo_binario import MonticuloBinario
+from monticulo_binario import MonticuloBinario
 
 class ColaPrioridad:
     """
@@ -61,19 +61,3 @@ class ColaPrioridad:
         elementos_en_monticulo = self._monticulo.ver_lista_interna()
         elementos_ordenados = sorted(elementos_en_monticulo)
         return [dato for clave_orden, dato in elementos_ordenados]
-
-    def append(self, paciente):
-        """Inserta un paciente usando su nivel de riesgo como prioridad."""
-        self.insertar(paciente.get_riesgo(), paciente)
-
-    def pop(self, index=0):
-        """Extrae el paciente con mayor prioridad (index se ignora)."""
-        return self.extraer()
-
-    def __len__(self):
-        """Permite usar len() sobre la cola."""
-        return self.tamano()
-
-    def __iter__(self):
-        """Permite iterar sobre los pacientes ordenados por prioridad."""
-        return iter(self.ver_todos())

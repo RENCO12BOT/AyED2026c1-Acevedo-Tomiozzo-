@@ -195,10 +195,10 @@ class TemperaturasDB:
                     cargadas += 1
 
                 except (ValueError, IndexError) as e:
-                    print(f"  ⚠ Línea {num} ignorada: {e}")
+                    print(f"   Línea {num} ignorada: {e}")
                     errores += 1
 
-        print(f"✔ Carga completada: {cargadas} mediciones cargadas, {errores} errores.")
+        print(f" Carga completada: {cargadas} mediciones cargadas, {errores} errores.")
         return cargadas
 
 
@@ -213,7 +213,7 @@ if __name__ == "__main__":
     db = TemperaturasDB()
 
     # carga manual de mediciones de ejemplo
-    print("\n📥 Cargando mediciones manualmente...")
+    print("\n Cargando mediciones manualmente...")
     mediciones = [
         (22.5,  "01/06/2023"),
         (18.0,  "05/06/2023"),
@@ -230,20 +230,20 @@ if __name__ == "__main__":
         db.guardar_temperatura(temp, fecha)
         print(f"  Guardada: {fecha} → {temp} ºC")
 
-    print(f"\n📊 Cantidad de muestras: {db.cantidad_muestras()}")
+    print(f"\n Cantidad de muestras: {db.cantidad_muestras()}")
 
     # búsqueda puntual
-    print("\n🔍 Consulta de fecha específica:")
+    print("\n Consulta de fecha específica:")
     print(f"  15/06/2023 → {db.devolver_temperatura('15/06/2023')} ºC")
     print(f"  01/01/2000 → {db.devolver_temperatura('01/01/2000')}")  # None
 
     # extremos de rango
-    print("\n🌡 Extremos en rango 01/06/2023 → 30/06/2023:")
+    print("\n Extremos en rango 01/06/2023 → 30/06/2023:")
     minima, maxima = db.temp_extremos_rango("01/06/2023", "30/06/2023")
     print(f"  Mínima: {minima} ºC  |  Máxima: {maxima} ºC")
 
     # listado de rango
-    print("\n📋 Temperaturas en rango 10/06/2023 → 25/06/2023:")
+    print("\n Temperaturas en rango 10/06/2023 → 25/06/2023:")
     for item in db.devolver_temperaturas("10/06/2023", "25/06/2023"):
         print(f"  {item}")
 
@@ -257,12 +257,12 @@ if __name__ == "__main__":
     base = os.path.dirname(os.path.abspath(__file__))   # carpeta donde está este .py
     ruta = os.path.join(base, "..", "data", "muestras.txt")  # sube un nivel a data/
     if os.path.exists(ruta):
-        print(f"\n📂 Cargando desde '{ruta}'...")
+        print(f"\n Cargando desde '{ruta}'...")
         db2 = TemperaturasDB()
         db2.cargar_desde_archivo(ruta)
         print(f"  Total de muestras: {db2.cantidad_muestras()}")
     else:
-        print(f"\n📂 Archivo '{ruta}' no encontrado, saltando carga desde archivo.")
+        print(f"\n Archivo '{ruta}' no encontrado, saltando carga desde archivo.")
  
     print("\n" + "=" * 60)
     print("  Fin de la demo. ¡Hasta la próxima, Kevin!")

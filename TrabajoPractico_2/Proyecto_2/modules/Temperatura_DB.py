@@ -1,6 +1,6 @@
 from datetime import datetime  # manejo de fechas
 
-# ── NodoAVL ───────────────────────────────────────────────────
+# NodoAVL
 class NodoAVL:
     def __init__(self, fecha: datetime, temperatura: float):
         self.fecha       = fecha         # clave de ordenamiento
@@ -9,7 +9,7 @@ class NodoAVL:
         self.derecho     = None          # hijo derecho (fechas mayores)
         self.altura      = 1             # nodo nuevo siempre empieza en 1
 
-# ── ArbolAVL ──────────────────────────────────────────────────
+# ArbolAVL
 class ArbolAVL:
 
     def __init__(self):
@@ -114,7 +114,7 @@ class ArbolAVL:
     def cantidad(self):       return self._cantidad
 
 
-# ── TemperaturasDB ────────────────────────────────────────────
+#TemperaturasDB 
 class TemperaturasDB:
     """Base de datos en memoria para mediciones de temperatura. Usa AVL internamente."""
 
@@ -202,7 +202,7 @@ class TemperaturasDB:
         return cargadas
 
 
-# ── Demo ──────────────────────────────────────────────────────
+# Demo
 if __name__ == "__main__":
     import os
 

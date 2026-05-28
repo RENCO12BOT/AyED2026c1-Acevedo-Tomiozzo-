@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Sala de emergencias
 """
@@ -6,8 +5,7 @@ import time
 import datetime
 from ayedfiuner.estructuras.paciente import Paciente
 import random
-from ayedfiuner.estructuras.Cola_Prioridad import ColaPrioridad
-
+from ayedfiuner.estructuras.cola_prioridad import ColaPrioridad
 
 n = 20  # cantidad de ciclos de simulación
 
@@ -24,12 +22,12 @@ for i in range(n):
     # Se crea un paciente un paciente por segundo
     # La criticidad del paciente es aleatoria
     paciente = Paciente()
-    cola_de_espera.append(paciente)
+    cola_de_espera.insertar(paciente.get_riesgo(), paciente)
 
     # Atención de paciente en este ciclo: en el 50% de los casos
     if random.random() < 0.5:
         # se atiende paciente que se encuentra al frente de la cola
-        paciente_atendido = cola_de_espera.pop(0)
+        paciente_atendido = cola_de_espera.extraer()
         print('*'*40)
         print('Se atiende el paciente:', paciente_atendido)
         print('*'*40)
@@ -48,4 +46,4 @@ for i in range(n):
     print('-*-'*15)
     
     time.sleep(1)
-
+    

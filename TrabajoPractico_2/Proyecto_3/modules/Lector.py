@@ -1,65 +1,117 @@
+"""
+Encuentra el Árbol de Expansión Mínima (MST) desde 'Peligros'
+para distribuir noticias a todas las aldeas con el mínimo recorrido total.
+"""
+
 import os
 from ayedfiuner.estructuras.grafos import Grafo, prim
 
 
 def cargarGrafo(ruta):
-    """Lee el archivo de aldeas y construye el grafo."""
+    """
+    Lee el archivo de aldeas y construye el grafo no dirigido.
+
+    Precondición:
+        - ruta es un string con la ruta válida a un archivo .txt existente.
+        - Cada línea es: 'Aldea1, Aldea2, distancia' o 'Aldea' (vértice suelto).
+    Postcondición:
+        - Retorna un Grafo con todos los vértices y aristas no dirigidas.
+    Excepciones:
+        - FileNotFoundError si el archivo no existe.
+        - ValueError si una línea tiene formato inválido o distancia no numérica.
+    """
+    if not os.path.isfile(ruta):
+        raise FileNotFoundError(f"No se encontró el archivo: {ruta}")
+
     grafo = Grafo()
+
     with open(ruta, encoding='utf-8') as f:
-        for linea in f:
+        for num_linea, linea in enumerate(f, start=1):
             linea = linea.strip()
             if not linea:
                 continue
+
             partes = [p.strip() for p in linea.split(',')]
+
             if len(partes) == 3:
-                origen, destino, costo = partes
-                grafo.agregarArista(origen, destino, int(costo))
+                origen, destino, costo_str = partes
+                try:
+                    costo = int(costo_str)
+                except ValueError:
+                    raise ValueError(
+                        f"Línea {num_linea}: la distancia '{costo_str}' no es un entero válido."
+                    )
+                grafo.agregarArista(origen, destino, costo)
+
             elif len(partes) == 1:
-                if partes[0] not in grafo.listaVertices:
-                    grafo.agregarVertice(partes[0])
+                grafo.agregarVertice(partes[0])
+
+            else:
+                raise ValueError(
+                    f"Línea {num_linea}: formato inesperado → '{linea}'"
+                )
+
     return grafo
 
 
-def main():
-    base = os.path.dirname(os.path.abspath(__file__))
-    grafo = cargarGrafo(os.path.join(base, '..', 'data', 'aldeas.txt'))
+def construirMapaHijos(grafo):
+    """
+    Construye un diccionario aldea_id → lista de hijos en el MST.
 
-    inicio = grafo.obtenerVertice('Peligros')
-    if inicio is None:
-        print("No se encontró el vértice 'Peligros'")
-        return
+    Precondición:
+        - Se ejecutó prim() sobre el grafo previamente.
+    Postcondición:
+        - Retorna dict donde cada clave es un id de aldea y el valor
+          es la lista de ids de las aldeas que reciben la noticia desde ella.
+    """
+    hijos = {v: [] for v in grafo.obtenerVertices()}
+    for v in grafo:
+        pred = v.obtenerPredecesor()
+        if pred is not None:
+            hijos[pred.obtenerId()].append(v.obtenerId())
+    return hijos
 
-    prim(grafo, inicio)
 
+def mostrarResultados(grafo, origen_id='Peligros'):
+    """
+    Muestra los resultados del MST por consola:
+      1. Lista alfabética de aldeas.
+      2. Para cada aldea: de quién recibe y a quiénes envía.
+      3. Distancia total recorrida por todas las palomas.
+
+    Precondición:
+        - Se ejecutó prim() sobre el grafo desde el vértice con id=origen_id.
+        - origen_id existe en el grafo.
+    Postcondición:
+        - Imprime los tres bloques de información requeridos por la consigna.
+    """
+    aldeas_ordenadas = sorted(grafo.obtenerVertices())
+    hijos = construirMapaHijos(grafo)
+
+    # --- Bloque 1: lista alfabética ---
     print("=" * 60)
     print("ALDEAS EN ORDEN ALFABÉTICO")
     print("=" * 60)
-    aldeas_ordenadas = sorted(grafo.obtenerVertices())
-    for a in aldeas_ordenadas:
-        print(f"  {a}")
+    for aldea in aldeas_ordenadas:
+        print(f"  {aldea}")
 
-    hijos = {v: [] for v in grafo.obtenerVertices()}
-    for v in grafo:
-        if v.obtenerPredecesor() is not None:
-            padre_id = v.obtenerPredecesor().obtenerId()
-            hijos[padre_id].append(v.obtenerId())
-
+    # --- Bloque 2: árbol de distribución ---
     print()
     print("=" * 60)
-    print("ÁRBOL DE DISTRIBUCIÓN (Prim desde Peligros)")
+    print(f"ÁRBOL DE DISTRIBUCIÓN (MST desde {origen_id})")
     print("=" * 60)
 
-    distancia_total_global = 0
+    distancia_total = 0
 
     for aldea_id in aldeas_ordenadas:
         v = grafo.obtenerVertice(aldea_id)
         pred = v.obtenerPredecesor()
         envios = sorted(hijos[aldea_id])
 
-        if aldea_id == 'Peligros':
-            recibe_de = "— (origen)"
+        if aldea_id == origen_id:
+            recibe_de = "— (origen, no recibe)"
         elif pred is None:
-            recibe_de = "NO ALCANZABLE"
+            recibe_de = "⚠ NO ALCANZABLE desde el origen"
         else:
             recibe_de = pred.obtenerId()
 
@@ -69,19 +121,39 @@ def main():
         print(f"    Recibe de : {recibe_de}")
         print(f"    Envía a   : {envia_a}")
 
-        dist_aldea = 0
-        for hijo_id in hijos[aldea_id]:
-            hijo = grafo.obtenerVertice(hijo_id)
-            dist_aldea += hijo.obtenerDistancia()
-
+        # distancia enviada = suma de pesos de aristas hacia sus hijos
+        dist_aldea = sum(
+            grafo.obtenerVertice(hijo_id).obtenerDistancia()
+            for hijo_id in hijos[aldea_id]
+        )
         if hijos[aldea_id]:
-            print(f"    Dist. enviadas: {dist_aldea} leguas")
-            distancia_total_global += dist_aldea
+            print(f"    Leguas enviadas desde aquí: {dist_aldea}")
+            distancia_total += dist_aldea
 
+    # --- Bloque 3: distancia total ---
     print()
     print("=" * 60)
-    print(f"DISTANCIA TOTAL RECORRIDA POR TODAS LAS PALOMAS: {distancia_total_global} leguas")
+    print(f"DISTANCIA TOTAL RECORRIDA POR TODAS LAS PALOMAS: {distancia_total} leguas")
     print("=" * 60)
+
+
+def main():
+    base = os.path.dirname(os.path.abspath(__file__))
+    ruta_aldeas = os.path.join(base, 'data', 'aldeas.txt')
+
+    try:
+        grafo = cargarGrafo(ruta_aldeas)
+    except (FileNotFoundError, ValueError) as e:
+        print(f"[ERROR] al cargar el grafo: {e}")
+        return
+
+    inicio = grafo.obtenerVertice('Peligros')
+    if inicio is None:
+        print("[ERROR] No se encontró el vértice 'Peligros' en el grafo.")
+        return
+
+    prim(grafo, inicio)
+    mostrarResultados(grafo, origen_id='Peligros')
 
 
 if __name__ == '__main__':

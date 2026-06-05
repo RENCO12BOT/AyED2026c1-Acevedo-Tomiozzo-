@@ -4,8 +4,6 @@ from datetime import datetime
 from ayedfiuner.estructuras.arbolAVL import ArbolAVL
 from ayedfiuner.estructuras.nodoAVL import NodoAVL
 
-
-
 def _fecha(s: str) -> datetime:
     return datetime.strptime(s, "%d/%m/%Y")
 

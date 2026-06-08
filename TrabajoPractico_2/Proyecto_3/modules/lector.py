@@ -4,7 +4,6 @@ import sys
 # Ajustar los imports según la estructura de tu proyecto.
 from ayedfiuner.estructuras.grafos import Grafo, prim
 
-
 def cargar_grafo_desde_archivo(ruta_archivo):
     """
     Lee el archivo de aldeas y construye un Grafo no dirigido.

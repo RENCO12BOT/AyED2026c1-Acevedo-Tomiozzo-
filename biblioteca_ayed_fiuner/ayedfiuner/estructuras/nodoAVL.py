@@ -6,7 +6,7 @@ class NodoAVL:
     Nodo de un árbol AVL que almacena una fecha y una temperatura.
     """
 
-    def __init__(self, fecha: datetime, temperatura: float):
+    def __init__(self, clave, valor):        
         """
         Precondición:
             - fecha debe ser un objeto datetime válido.
@@ -14,9 +14,9 @@ class NodoAVL:
         Postcondición:
             - Se crea un nodo con fecha, temperatura, hijos None y altura 1.
         """
-        self.fecha       = fecha
-        self.temperatura = temperatura
-        self.izquierdo   = None
-        self.derecho     = None
-        self.altura      = 1
+        self.clave     = clave
+        self.valor     = valor
+        self.altura    = 1
+        self.izquierdo = None
+        self.derecho   = None
         

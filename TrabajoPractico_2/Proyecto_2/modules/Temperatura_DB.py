@@ -6,7 +6,6 @@ from ayedfiuner.estructuras.arbolAVL import ArbolAVL
 class TemperaturasDB:
     """
     Base de datos en memoria para mediciones de temperatura.
-    Usa ArbolAVL internamente. Específica del problema de Kevin Kelvin.
     """
 
     FORMATO_FECHA = "%d/%m/%Y"
@@ -50,7 +49,7 @@ class TemperaturasDB:
             - Retorna el float almacenado para esa fecha, o None si no existe.
         """
         n = self._arbol.buscar(self._parsear_fecha(fecha))
-        return None if n is None else n.temperatura
+        return None if n is None else n.valor
 
     def max_temp_rango(self, fecha1: str, fecha2: str):
         """
@@ -60,7 +59,7 @@ class TemperaturasDB:
             - Retorna el float máximo en el rango, o None si el rango está vacío.
         """
         ns = self._arbol.rango(self._parsear_fecha(fecha1), self._parsear_fecha(fecha2))
-        return None if not ns else max(ns, key=lambda n: n.temperatura).temperatura
+        return None if not ns else max(ns, key=lambda n: n.valor).valor
 
     def min_temp_rango(self, fecha1: str, fecha2: str):
         """
@@ -70,7 +69,7 @@ class TemperaturasDB:
             - Retorna el float mínimo en el rango, o None si el rango está vacío.
         """
         ns = self._arbol.rango(self._parsear_fecha(fecha1), self._parsear_fecha(fecha2))
-        return None if not ns else min(ns, key=lambda n: n.temperatura).temperatura
+        return None if not ns else min(ns, key=lambda n: n.valor).valor
 
     def temp_extremos_rango(self, fecha1: str, fecha2: str):
         """
@@ -81,7 +80,7 @@ class TemperaturasDB:
         """
         ns = self._arbol.rango(self._parsear_fecha(fecha1), self._parsear_fecha(fecha2))
         if not ns: return (None, None)
-        ts = [n.temperatura for n in ns]
+        ts = [n.valor for n in ns]
         return (min(ts), max(ts))
 
     def borrar_temperatura(self, fecha: str):
@@ -101,7 +100,7 @@ class TemperaturasDB:
             - Retorna lista de strings 'dd/mm/aaaa: T ºC' ordenada cronológicamente.
         """
         ns = self._arbol.rango(self._parsear_fecha(fecha1), self._parsear_fecha(fecha2))
-        return [f"{n.fecha.strftime(self.FORMATO_FECHA)}: {n.temperatura} ºC" for n in ns]
+        return [f"{n.clave.strftime(self.FORMATO_FECHA)}: {n.valor} ºC" for n in ns]
 
     def cantidad_muestras(self) -> int:
         """
@@ -198,3 +197,4 @@ if __name__ == "__main__":
     print("\n" + "=" * 60)
     print("  Fin de la demo.")
     print("=" * 60)
+    

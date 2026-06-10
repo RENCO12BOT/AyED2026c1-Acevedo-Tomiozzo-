@@ -1,6 +1,7 @@
-import heapq
 import sys
+import heapq
 from ayedfiuner.estructuras.vertice import Vertice
+from ayedfiuner.estructuras.Cola_Prioridad import ColaPrioridad
 
 class Grafo:
     """
@@ -58,7 +59,7 @@ class Grafo:
         v_de = self.agregarVertice(de)
         v_a  = self.agregarVertice(a)
         v_de.agregarVecino(v_a, costo)
-        v_a.agregarVecino(v_de, costo)   # no dirigido: arista en ambas direcciones
+        v_a.agregarVecino(v_de, costo)
 
     def obtenerVertices(self):
         """Postcondición: retorna las claves (ids) de todos los vértices."""
@@ -81,8 +82,7 @@ def prim(grafo, inicio):
         - grafo es una instancia de Grafo no vacía.
         - inicio es un Vertice perteneciente al grafo.
     Postcondición:
-        - Cada vértice alcanzable tiene asignado su predecesor (el vértice del MST
-          desde el cual se conecta) y su distancia (peso de esa arista).
+        - Cada vértice alcanzable tiene asignado su predecesor y su distancia.
         - Los vértices no alcanzables conservan distancia=sys.maxsize y predecesor=None.
     """
     if not isinstance(grafo, Grafo):
@@ -92,17 +92,17 @@ def prim(grafo, inicio):
     if inicio.obtenerId() not in grafo:
         raise ValueError(f"El vértice '{inicio.obtenerId()}' no pertenece al grafo.")
 
-    # Inicializar todos los vértices
     for v in grafo:
         v.asignarDistancia(sys.maxsize)
         v.asignarPredecesor(None)
 
     inicio.asignarDistancia(0)
-    colaPrioridad = [(0, inicio)]
+    cola = ColaPrioridad()
+    cola.insertar(0, inicio)
     visitados = set()
 
-    while colaPrioridad:
-        _, verticeActual = heapq.heappop(colaPrioridad)
+    while not cola.esta_vacia():
+        verticeActual = cola.extraer()
 
         if verticeActual.obtenerId() in visitados:
             continue
@@ -113,4 +113,4 @@ def prim(grafo, inicio):
             if vecino.obtenerId() not in visitados and costo < vecino.obtenerDistancia():
                 vecino.asignarPredecesor(verticeActual)
                 vecino.asignarDistancia(costo)
-                heapq.heappush(colaPrioridad, (costo, vecino))
+                cola.insertar(costo, vecino)

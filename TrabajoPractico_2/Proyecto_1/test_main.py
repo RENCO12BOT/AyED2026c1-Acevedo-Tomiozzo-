@@ -3,9 +3,9 @@ Sala de emergencias
 """
 import time
 import datetime
-from ayedfiuner.estructuras.paciente import Paciente
+from modules.paciente import Paciente
 import random
-from ayedfiuner.estructuras.cola_prioridad import ColaPrioridad
+from ayedfiuner.estructuras.Cola_Prioridad import ColaPrioridad
 
 n = 20  # cantidad de ciclos de simulación
 

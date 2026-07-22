@@ -1,6 +1,5 @@
 from ayedfiuner.estructuras.nodoAVL import NodoAVL
 
-
 class ArbolAVL:
     """
     Árbol AVL que ordena nodos por fecha (datetime).
@@ -100,7 +99,7 @@ class ArbolAVL:
             return self._rotar_izquierda(nodo)
         return nodo
 
-    def _insertar(self, nodo, fecha, temperatura):
+    def _insertar(self, nodo, clave, valor):
         """
         Precondición:
             - fecha es un datetime válido.
@@ -111,19 +110,22 @@ class ArbolAVL:
             - Si fecha ya existía, su temperatura se actualiza sin alterar self._cantidad.
             - Retorna la nueva raíz del subárbol, balanceada.
         """
+        
         if nodo is None:
             self._cantidad += 1
-            return NodoAVL(fecha, temperatura)
-        if   fecha < nodo.fecha:
-            nodo.izquierdo = self._insertar(nodo.izquierdo, fecha, temperatura)
-        elif fecha > nodo.fecha:
-            nodo.derecho   = self._insertar(nodo.derecho,   fecha, temperatura)
+            return NodoAVL(clave, valor)
+        if  clave < nodo.clave:
+            nodo.izquierdo = self._insertar(nodo.izquierdo, clave, valor)
+        elif clave > nodo.clave:
+            nodo.derecho   = self._insertar(nodo.derecho,   clave, valor)
         else:
-            nodo.temperatura = temperatura
+            nodo.valor = valor
             return nodo
-        return self._rebalancear(nodo)
+        return self._rebalancear(nodo)    
+        
+        
 
-    def _buscar(self, nodo, fecha):
+    def _buscar(self, nodo, clave):
         """
         Precondición:
             - fecha es un datetime válido.
@@ -131,10 +133,10 @@ class ArbolAVL:
         Postcondición:
             - Retorna el NodoAVL cuya fecha coincide, o None si no existe.
         """
-        if nodo is None or fecha == nodo.fecha:
+        if nodo is None or clave == nodo.clave:
             return nodo
         return self._buscar(
-            nodo.izquierdo if fecha < nodo.fecha else nodo.derecho, fecha)
+            nodo.izquierdo if clave < nodo.clave else nodo.derecho, clave)
 
     def _minimo_nodo(self, nodo):
         """
@@ -147,7 +149,7 @@ class ArbolAVL:
             nodo = nodo.izquierdo
         return nodo
 
-    def _borrar(self, nodo, fecha):
+    def _borrar(self, nodo, clave):
         """
         Precondición:
             - fecha es un datetime válido.
@@ -157,20 +159,21 @@ class ArbolAVL:
             - Retorna la nueva raíz del subárbol, balanceada.
         """
         if nodo is None:
-            return None
-        if   fecha < nodo.fecha:
-            nodo.izquierdo = self._borrar(nodo.izquierdo, fecha)
-        elif fecha > nodo.fecha:
-            nodo.derecho   = self._borrar(nodo.derecho,   fecha)
+           return None
+        if   clave < nodo.clave:
+             nodo.izquierdo = self._borrar(nodo.izquierdo, clave)
+        elif clave > nodo.clave:
+            nodo.derecho   = self._borrar(nodo.derecho,   clave)
         else:
             self._cantidad -= 1
             if not nodo.izquierdo: return nodo.derecho
             if not nodo.derecho:   return nodo.izquierdo
             suc = self._minimo_nodo(nodo.derecho)
-            nodo.fecha, nodo.temperatura = suc.fecha, suc.temperatura
-            nodo.derecho = self._borrar(nodo.derecho, suc.fecha)
+            nodo.clave, nodo.valor = suc.clave, suc.valor
+            nodo.derecho = self._borrar(nodo.derecho, suc.clave)
             self._cantidad += 1
         return self._rebalancear(nodo)
+        
 
     def _rango_inorden(self, nodo, f1, f2, resultado):
         """
@@ -182,15 +185,13 @@ class ArbolAVL:
             - resultado contiene en orden ascendente todos los NodoAVL en [f1, f2].
         """
         if nodo is None: return
-        if nodo.fecha > f1: self._rango_inorden(nodo.izquierdo, f1, f2, resultado)
-        if f1 <= nodo.fecha <= f2: resultado.append(nodo)
-        if nodo.fecha < f2: self._rango_inorden(nodo.derecho,   f1, f2, resultado)
+        if nodo.clave > f1: self._rango_inorden(nodo.izquierdo, f1, f2, resultado)
+        if f1 <= nodo.clave <= f2: resultado.append(nodo)
+        if nodo.clave < f2: self._rango_inorden(nodo.derecho,   f1, f2, resultado)
 
-    # -------------------------------------------------------------------------
-    # Métodos públicos
-    # -------------------------------------------------------------------------
-
-    def insertar(self, fecha, temperatura):
+    # Métodos públicos-
+    
+    def insertar(self, clave, valor):
         """
         Precondición:
             - fecha es un datetime válido.
@@ -199,35 +200,36 @@ class ArbolAVL:
             - Si fecha no existía, se agrega y self._cantidad aumenta en 1.
             - Si fecha ya existía, su temperatura queda actualizada.
         """
-        self.raiz = self._insertar(self.raiz, fecha, temperatura)
+        self.raiz = self._insertar(self.raiz, clave, valor)
 
-    def buscar(self, fecha):
+    def buscar(self,clave):
         """
         Precondición:
             - fecha es un datetime válido.
         Postcondición:
             - Retorna el NodoAVL con esa fecha, o None si no existe.
         """
-        return self._buscar(self.raiz, fecha)
+        
+        return self._buscar(self.raiz, clave)
 
-    def borrar(self, fecha):
+    def borrar(self, clave):
         """
         Precondición:
             - fecha es un datetime válido.
         Postcondición:
             - Si fecha existía, el nodo es eliminado y self._cantidad disminuye en 1.
         """
-        self.raiz = self._borrar(self.raiz, fecha)
+        self.raiz = self._borrar(self.raiz, clave)
 
-    def rango(self, f1, f2):
+    def rango(self, c1, c2):
         """
         Precondición:
-            - f1 y f2 son datetime válidos con f1 <= f2.
+            - c1 y c2 son datetime válidos con c1 <= c2.
         Postcondición:
-            - Retorna lista de NodoAVL ordenados por fecha en el intervalo [f1, f2].
+            - Retorna lista de NodoAVL ordenados por fecha en el intervalo [c1, c2].
         """
         r = []
-        self._rango_inorden(self.raiz, f1, f2, r)
+        self._rango_inorden(self.raiz, c1, c2, r)
         return r
 
     def cantidad(self):
